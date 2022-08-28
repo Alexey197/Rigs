@@ -1,8 +1,8 @@
 import {RIGS} from "../data";
 import SiteMenu from "./view/site-menu"
-import Rigs from "./view/rigs"
+import Cards from "./view/cards"
 import Board from "./view/board"
-import Rig from "./view/rig"
+import Rigs from "./view/rigs"
 import {render, RenderPosition} from "./utils";
 
 const siteMainElement = document.querySelector(`.main`)
@@ -13,12 +13,10 @@ const bordComponent = new Board()
 render(siteMainElement, bordComponent.getElement(), RenderPosition.BEFOREEND)
 
 const boardElement = siteMainElement.querySelector(`.board`)
-const rigsComponent = new Rigs()
+const cardsComponent = new Cards()
 
-render(boardElement, rigsComponent.getElement(), RenderPosition.BEFOREEND)
+render(boardElement, cardsComponent.getElement(), RenderPosition.BEFOREEND)
+
 const rigsListElement = boardElement.querySelector(`.rigs__cards`)
-
-RIGS.forEach((rig, index) => {
-  const rigComponent = new Rig(rig, index + 1)
-  render(rigsListElement, rigComponent.getElement(), RenderPosition.BEFOREEND)
-})
+const rigs = new Rigs(RIGS)
+render(rigsListElement, rigs.getElement(), RenderPosition.BEFOREEND)
