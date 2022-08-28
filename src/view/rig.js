@@ -1,6 +1,7 @@
+import {createElement} from "../utils";
 
 
-const generateCardTuning = (card) => {
+export const generateCardTuning = (card) => {
   const {id, model, core, memory, power, fan, temp, set} = card
 
   return (
@@ -18,9 +19,8 @@ const generateCardTuning = (card) => {
 }
 
 export const createRigTemplate = (rig, index) => {
-  const cardItems = rig.map(item => {
-    return generateCardTuning(item)
-  }).join(``)
+  const cardItems = rig.map(generateCardTuning)
+      .join(``)
   return (
     `<article class="rig">
                 <h2 class="rig__title">alex${index}</h2>
@@ -45,4 +45,28 @@ export const createRigTemplate = (rig, index) => {
                 <button class="rig__submit" type="submit">save</button>
             </article>`
   )
+}
+
+export default class Rig {
+  constructor(rig, count) {
+    this._element = null
+    this._count = count
+    this._rig = rig
+  }
+
+  getTemplate() {
+    return createRigTemplate(this._rig, this._count)
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate())
+    }
+
+    return this._element
+  }
+
+  removeElement() {
+    this._element = null
+  }
 }

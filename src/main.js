@@ -1,21 +1,24 @@
 import {RIGS} from "../data";
-import {createSiteMenuTemplate} from "./view/site-menu"
-import {createRigsTemplate} from "./view/rigs"
-import {createBoardTemplate} from "./view/board"
-import {createRigTemplate} from "./view/rig"
-
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template)
-}
+import SiteMenu from "./view/site-menu"
+import Rigs from "./view/rigs"
+import Board from "./view/board"
+import Rig from "./view/rig"
+import {render, RenderPosition} from "./utils";
 
 const siteMainElement = document.querySelector(`.main`)
-render(siteMainElement, createSiteMenuTemplate(), `beforeend`)
-render(siteMainElement, createBoardTemplate(), `beforeend`)
+const siteMenuComponent = new SiteMenu()
+render(siteMainElement, siteMenuComponent.getElement(), RenderPosition.AFTERBEGIN)
+
+const bordComponent = new Board()
+render(siteMainElement, bordComponent.getElement(), RenderPosition.BEFOREEND)
 
 const boardElement = siteMainElement.querySelector(`.board`)
-render(boardElement, createRigsTemplate(), `beforeend`)
+const rigsComponent = new Rigs()
+
+render(boardElement, rigsComponent.getElement(), RenderPosition.BEFOREEND)
 const rigsListElement = boardElement.querySelector(`.rigs__cards`)
 
 RIGS.forEach((rig, index) => {
-  render(rigsListElement, createRigTemplate(rig, index + 1), `beforeend`)
+  const rigComponent = new Rig(rig, index + 1)
+  render(rigsListElement, rigComponent.getElement(), RenderPosition.BEFOREEND)
 })
